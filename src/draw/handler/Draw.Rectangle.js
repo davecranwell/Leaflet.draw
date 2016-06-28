@@ -12,7 +12,8 @@ L.Draw.Rectangle = L.Draw.SimpleShape.extend({
 			fill: true,
 			fillColor: null, //same as color by default
 			fillOpacity: 0.2,
-			clickable: true
+			clickable: true,
+			aspectRatio: null
 		},
 		metric: true // Whether to use the metric measurement system or imperial
 	},
@@ -31,6 +32,23 @@ L.Draw.Rectangle = L.Draw.SimpleShape.extend({
 			this._shape = new L.Rectangle(new L.LatLngBounds(this._startLatLng, latlng), this.options.shapeOptions);
 			this._map.addLayer(this._shape);
 		} else {
+
+			if (this._shape.options.aspectRatio) {
+				bounds = this._shape.getBounds();
+
+				var opposite = this._map.project(this._startLatLng).round(),
+						dragPoint = this._map.project(latlng).round(),
+						ydiff = Math.abs(opposite.y - dragPoint.y) * this._shape.options.aspectRatio;
+
+				if (opposite.x < dragPoint.x) {
+						dragPoint.x = opposite.x + ydiff;
+				} else {
+						dragPoint.x = opposite.x - ydiff;
+				}
+
+				latlng = this._map.unproject(dragPoint);
+		}
+
 			this._shape.setBounds(new L.LatLngBounds(this._startLatLng, latlng));
 		}
 	},
