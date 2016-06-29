@@ -76,8 +76,6 @@ L.Edit.Rectangle = L.Edit.SimpleShape.extend({
 		var bounds;
 
 		if (this._shape.options.aspectRatio) {
-			bounds = this._shape.getBounds();
-
 			var opposite = this._map.project(this._oppositeCorner).round(),
 					dragPoint = this._map.project(latlng).round(),
 					ydiff = Math.abs(opposite.y - dragPoint.y) * this._shape.options.aspectRatio;

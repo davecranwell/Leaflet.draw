@@ -34,8 +34,6 @@ L.Draw.Rectangle = L.Draw.SimpleShape.extend({
 		} else {
 
 			if (this._shape.options.aspectRatio) {
-				bounds = this._shape.getBounds();
-
 				var opposite = this._map.project(this._startLatLng).round(),
 						dragPoint = this._map.project(latlng).round(),
 						ydiff = Math.abs(opposite.y - dragPoint.y) * this._shape.options.aspectRatio;
